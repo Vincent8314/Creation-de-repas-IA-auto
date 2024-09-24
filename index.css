@@ -9,14 +9,12 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
-
 .container-wrapper {
     width: 100%;
     max-width: 600px;
     padding: 20px;
     box-sizing: border-box;
 }
-
 .container, .container1 {
     border: 1px solid #A6B1E1;
     background-color: #F4EEFF;
@@ -28,20 +26,20 @@ body {
     max-width: 100%;
     box-sizing: border-box;
 }
-
+.container1 {
+    text-align: center;
+}
 h1, h2 {
     text-align: center;
     color: #424874;
     margin-bottom: 20px;
 }
-
 label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
     color: #424874;
 }
-
 input[type="number"], select {
     width: 100%;
     padding: 10px;
@@ -52,13 +50,11 @@ input[type="number"], select {
     background-color: #F4EEFF;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 input[type="number"]:focus, select:focus {
     outline: none;
     border-color: #424874;
     box-shadow: 0 0 5px rgba(66, 72, 116, 0.3);
 }
-
 button {
     margin-top: 20px;
     padding: 10px 15px;
@@ -71,26 +67,27 @@ button {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
-
 button:hover {
     background-color: #424874;
 }
-
 .result {
     margin-top: 20px;
     font-weight: bold;
     background-color: #F4EEFF;
     padding: 15px;
     border-radius: 5px;
+    text-align: left;
     border: 1px solid #A6B1E1;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
 }
-
 .result p {
     color: #424874;
     font-size: 16px;
 }
-
+.calories-highlight {
+    color: #A6B1E1;
+    font-weight: bold;
+}
 .result-row {
     display: flex;
     justify-content: space-around;
@@ -98,7 +95,6 @@ button:hover {
     margin-top: 20px;
     gap: 20px;
 }
-
 .result-card {
     display: flex;
     flex-direction: column;
@@ -111,29 +107,24 @@ button:hover {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
-
 .result-card:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
 }
-
 .result-card img {
     width: 30px;
     height: 30px;
     margin-bottom: 10px;
 }
-
 .result-card h3 {
     margin: 0;
     font-size: 1em;
     color: #424874;
 }
-
 .result-card p {
     margin: 5px 0 0 0;
     font-size: 1.1em;
     color: #333;
 }
-
 #resultRepas {
     border: 1px solid #A6B1E1;
     background-color: #F4EEFF;
@@ -145,4 +136,5 @@ button:hover {
     max-height: 400px;
     white-space: pre-wrap;
 }
+
 
