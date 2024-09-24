@@ -450,32 +450,7 @@
 
             // Texte pour la requête à l'API
             const prompt = `
-                Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}. Le plan doit etre construit en suivant la forme generale ci apres :- ***Porridge aux graines de chia, banane et fromage blanc***
-    
-    ### Ingrédients :
-    
-    - 50g de flocons d'avoine
-    - 250ml de lait d’amande non sucré
-    - 10g de graines de chia (source d’oméga 3)
-    - 1 banane moyenne (100g)
-    - 200g de fromage blanc (source de protéines)
-    - 1 cuillère à café de miel (facultatif)
-    - Une pincée de cannelle
-    
-    ### Préparation :
-    
-    1. Faites chauffer le lait d’amande à feu doux et ajoutez les flocons d’avoine. Laissez cuire 5 à 7 minutes jusqu'à obtenir une texture crémeuse.
-    2. Ajoutez les rondelles de banane et les graines de chia.
-    3. Servez avec le fromage blanc à côté.
-    4. Saupoudrez de cannelle et ajoutez du miel si désiré.
-    
-    ### ***Calories et macros** :*
-    
-    - Protéines : 35g
-    - Glucides : 60g
-    - Lipides : 12g
-    - **Total calorique : 480 kcal** 
-            `;
+                Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}. Le plan doit avoir des recette longue et explicite;
 
             // Appel à l'API OpenAI
             const apiKey = 'sk-yZdAQLshs3VDuviCyDAlJTgYlnvBovAMZ2bqa_I4AqT3BlbkFJe-zRblbzYlAGM4oa-QK2GmkcCW1u4QXk53dQhZaRwA'; // **ATTENTION : NE PAS EXPOSER VOTRE CLÉ API EN CLIENT**
