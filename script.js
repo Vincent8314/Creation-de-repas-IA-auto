@@ -140,7 +140,7 @@ function calculTDEE() {
     }
 }
 
-// Fonction pour générer les repas (Note : Ne jamais exposer de clé API dans le code côté client)
+// Fonction pour générer les repas en utilisant l'API OpenAI
 async function genererRepas() {
     // Vérifier si les valeurs nécessaires sont calculées
     const resultProteines = document.getElementById('resultProteines').innerText;
@@ -172,26 +172,30 @@ async function genererRepas() {
 
     // Texte pour la requête à l'API
     const prompt = `
-        Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}.
+        Génère un plan alimentaire complet pour une journée avec ${objectifCalories.toFixed(0)} calories. 
+        Le plan doit inclure ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. 
+        Inclure ${nombreRepas} repas par jour. 
+        Le régime est ${typeRegime}. 
+        Les repas doivent inclure des recettes complètes, avec des instructions de préparation et des quantités d'ingrédients.
     `;
 
-    // Appel à l'API OpenAI (doit être effectué côté serveur pour des raisons de sécurité)
-    try {
-        // Vous devez implémenter une requête côté serveur pour appeler l'API OpenAI en toute sécurité.
-        // Voici un exemple d'appel côté client, mais cela n'est pas sécurisé et ne fonctionnera pas sans une clé API.
+    const apiKey = 'VOTRE_CLE_API_ICI'; // Remplacez par votre clé API OpenAI
 
-        const response = await fetch('YOUR_BACKEND_ENDPOINT', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt })
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: [{ role: "user", content: prompt }]
+            })
         });
 
-        if (!response.ok) {
-            throw new Error(`Erreur API : ${response.statusText}`);
-        }
-
         const data = await response.json();
-        const repas = data.repas; // Assurez-vous que votre backend renvoie les données au bon format.
+        const repas = data.choices[0].message.content;
 
         // Afficher les repas de manière formatée
         document.getElementById('resultRepas').innerHTML = `<pre>${repas}</pre>`;
@@ -200,5 +204,6 @@ async function genererRepas() {
         document.getElementById('resultRepas').innerHTML = "Une erreur est survenue lors de la génération des repas.";
     }
 }
+
 
 
