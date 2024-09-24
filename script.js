@@ -1,4 +1,4 @@
-let BFP = null;
+let BFP = null;  // Variable pour stocker le pourcentage de masse grasse
 
 // Masquer ou afficher le champ "tour de hanches" en fonction du genre
 document.querySelectorAll('input[name="genreNavy"]').forEach(radio => {
@@ -26,18 +26,21 @@ function calculNavy() {
     if (!isNaN(taille) && !isNaN(tourCou) && !isNaN(tourNombril)) {
         if (genre === 'homme') {
             BFP = 495 / (1.0324 - 0.19077 * Math.log10(tourNombril - tourCou) + 0.15456 * Math.log10(taille)) - 450;
+            document.getElementById('errorNavy').innerHTML = "";
+            document.getElementById('resultNavy').innerHTML = `Taux de masse grasse selon US Navy : ${BFP.toFixed(2)}%`;
         } else {
             if (!isNaN(tourHanches)) {
                 BFP = 495 / (1.29579 - 0.35004 * Math.log10(tourNombril + tourHanches - tourCou) + 0.22100 * Math.log10(taille)) - 450;
+                document.getElementById('errorNavy').innerHTML = "";
+                document.getElementById('resultNavy').innerHTML = `Taux de masse grasse selon US Navy : ${BFP.toFixed(2)}%`;
             } else {
                 document.getElementById('errorNavy').innerHTML = "Veuillez entrer des valeurs valides pour le tour de hanches.";
-                return;
+                document.getElementById('resultNavy').innerHTML = "";
             }
         }
-        document.getElementById('errorNavy').innerHTML = "";
-        document.getElementById('resultNavy').innerHTML = `Taux de masse grasse selon US Navy : ${BFP.toFixed(2)}%`;
     } else {
         document.getElementById('errorNavy').innerHTML = "Veuillez entrer des valeurs valides pour la taille, le tour de cou et le tour de taille.";
+        document.getElementById('resultNavy').innerHTML = "";
     }
 }
 
@@ -137,8 +140,9 @@ function calculTDEE() {
     }
 }
 
-// Fonction pour générer les repas en utilisant une logique simple
-function genererRepas() {
+// Fonction pour générer les repas (Note : Ne jamais exposer de clé API dans le code côté client)
+async function genererRepas() {
+    // Vérifier si les valeurs nécessaires sont calculées
     const resultProteines = document.getElementById('resultProteines').innerText;
     const resultGraisses = document.getElementById('resultGraisses').innerText;
     const resultGlucides = document.getElementById('resultGlucides').innerText;
@@ -152,14 +156,49 @@ function genererRepas() {
         return;
     }
 
+    // Extraire les valeurs numériques
+    const proteines = parseFloat(resultProteines);
+    const graisses = parseFloat(resultGraisses);
+    const glucides = parseFloat(resultGlucides);
+
+    if (objectifCalories === null) {
+        alert("Impossible d'extraire les calories calculées.");
+        return;
+    }
+
+    // Obtenir les préférences utilisateur
     const typeRegime = document.querySelector('input[name="typeRegime"]:checked').value;
     const nombreRepas = document.getElementById('nombreRepas').value;
 
-    const repas = `
-        Repas 1 : Protéines ${resultProteines}, Graisses ${resultGraisses}, Glucides ${resultGlucides}.
-        Repas 2 : ${typeRegime} avec des protéines et graisses.
+    // Texte pour la requête à l'API
+    const prompt = `
+        Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}.
     `;
 
-    document.getElementById('resultRepas').innerHTML = repas;
+    // Appel à l'API OpenAI (doit être effectué côté serveur pour des raisons de sécurité)
+    try {
+        // Vous devez implémenter une requête côté serveur pour appeler l'API OpenAI en toute sécurité.
+        // Voici un exemple d'appel côté client, mais cela n'est pas sécurisé et ne fonctionnera pas sans une clé API.
+
+        const response = await fetch('YOUR_BACKEND_ENDPOINT', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur API : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const repas = data.repas; // Assurez-vous que votre backend renvoie les données au bon format.
+
+        // Afficher les repas de manière formatée
+        document.getElementById('resultRepas').innerHTML = `<pre>${repas}</pre>`;
+    } catch (error) {
+        console.error(error);
+        document.getElementById('resultRepas').innerHTML = "Une erreur est survenue lors de la génération des repas.";
+    }
 }
+
 
