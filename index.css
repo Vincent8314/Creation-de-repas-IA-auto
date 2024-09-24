@@ -1,4 +1,3 @@
-/* style.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #DCD6F7;
@@ -146,3 +145,4 @@ button:hover {
     max-height: 400px;
     white-space: pre-wrap;
 }
+
