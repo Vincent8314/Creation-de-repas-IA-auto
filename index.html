@@ -450,7 +450,8 @@
 
             // Texte pour la requête à l'API
             const prompt = `
-                Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}. ;
+                Génère un plan alimentaire pour une journée basé sur ${objectifCalories.toFixed(0)} calories avec ${proteines.toFixed(0)}g de protéines, ${graisses.toFixed(0)}g de graisses, et ${glucides.toFixed(0)}g de glucides. Le plan doit inclure ${nombreRepas} repas. Le régime est ${typeRegime}.
+            `;
 
             // Appel à l'API OpenAI
             const apiKey = 'sk-yZdAQLshs3VDuviCyDAlJTgYlnvBovAMZ2bqa_I4AqT3BlbkFJe-zRblbzYlAGM4oa-QK2GmkcCW1u4QXk53dQhZaRwA'; // **ATTENTION : NE PAS EXPOSER VOTRE CLÉ API EN CLIENT**
@@ -488,6 +489,182 @@
         }
     </script>
 
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Calcul du taux de masse grasse et dépense énergétique journalière</title>
+    <link rel="stylesheet" href="index.css"> <!-- Lien vers le fichier CSS -->
+</head>
+<body>
+
+    <div class="container-wrapper">
+        <h1>Calcul du taux de masse grasse et dépense énergétique journalière</h1>
+
+        <!-- Section US Navy pour calculer la masse grasse -->
+        <div class="container">
+            <h2>Calcul du taux de masse grasse selon la méthode US Navy</h2>
+            <label>Genre :</label>
+            <div class="radio-group">
+                <label><input type="radio" name="genreNavy" value="homme" checked> Homme</label>
+                <label><input type="radio" name="genreNavy" value="femme"> Femme</label>
+            </div>
+
+            <label for="tailleNavy">Taille (cm) :</label>
+            <input type="number" id="tailleNavy" placeholder="Entrez votre taille en cm" min="0">
+
+            <label for="tourCouNavy">Tour de cou (cm) :</label>
+            <input type="number" id="tourCouNavy" placeholder="Entrez votre tour de cou en cm" min="0">
+
+            <label for="tourNombrilNavy">Tour de taille (homme - niveau du nombril) / Tour de taille (femme - point le plus étroit) (cm) :</label>
+            <input type="number" id="tourNombrilNavy" placeholder="Entrez votre tour de taille en cm" min="0">
+
+            <label for="tourHanchesFemmeNavy" id="labelHanches" style="display: none;">Tour de hanches (femme) (cm) :</label>
+            <input type="number" id="tourHanchesFemmeNavy" placeholder="Entrez votre tour de hanches en cm" min="0" style="display: none;">
+
+            <button onclick="calculNavy()">Calcul Masse Grasse</button>
+
+            <div class="error" id="errorNavy" style="color: red;"></div>
+            <div class="result" id="resultNavy"></div>
+        </div>
+
+        <!-- Section Objectif -->
+        <div class="container">
+            <h2>Choisissez votre objectif</h2>
+            <label for="objectif">Objectif :</label>
+            <select id="objectif">
+                <option value="maintien">Maintien</option>
+                <option value="deficit15">Déficit léger (15%)</option>
+                <option value="deficit25">Déficit normal (25%)</option>
+                <option value="deficit40">Déficit avancé (40%)</option>
+                <option value="prise15">Prise de masse légère (15%)</option>
+                <option value="prise25">Prise de masse rapide (25%)</option>
+            </select>
+        </div>
+
+        <!-- Section Niveau d'activité pour les macros -->
+        <div class="container">
+            <h2>Niveau d'activité pour déterminer les besoins en macronutriments</h2>
+            <label for="niveauActivite">Niveau d'activité :</label>
+            <select id="niveauActivite">
+                <option value="nonSportif">Non sportif (maintien)</option>
+                <option value="sportif">Sportif</option>
+                <option value="amincissement">Amincissement (régime)</option>
+            </select>
+        </div>
+
+        <!-- Section TDEE -->
+        <div class="container">
+            <h2>Calcul de la dépense énergétique journalière (TDEE)</h2>
+            <label for="poidsTDEE">Poids (kg) :</label>
+            <input type="number" id="poidsTDEE" placeholder="Entrez votre poids en kg" min="0">
+            
+            <label>Type de travail :</label>
+            <div class="activity-group">
+                <label><input type="radio" name="travail" value="bureau" checked> Travail de bureau (PAL : 1.2)</label>
+                <label><input type="radio" name="travail" value="debout"> Travail debout (PAL : 1.4)</label>
+                <label><input type="radio" name="travail" value="leger"> Travail physique léger (PAL : 1.6)</label>
+                <label><input type="radio" name="travail" value="intense"> Travail physique intense (PAL : 1.8)</label>
+            </div>
+
+            <label for="heuresMoyenne">Nombre d'heures d'activité physique modérée par semaine :</label>
+            <input type="number" id="heuresMoyenne" placeholder="Entrez les heures d'activité modérée" min="0">
+
+            <label for="heuresIntense">Nombre d'heures d'activité physique intense par semaine :</label>
+            <input type="number" id="heuresIntense" placeholder="Entrez les heures d'activité intense" min="0">
+
+            <label>Habitudes de sommeil :</label>
+            <div class="activity-group">
+                <label><input type="radio" name="sommeil" value="moins6" checked> Moins de 6 heures</label>
+                <label><input type="radio" name="sommeil" value="6-8"> 6 à 8 heures</label>
+                <label><input type="radio" name="sommeil" value="plus8"> Plus de 8 heures</label>
+            </div>
+
+            <button onclick="calculTDEE()">Calculer TDEE</button>
+            <div class="result" id="resultTDEE"></div>
+        </div>
+
+        <!-- Section Besoins en Macronutriments -->
+        <div class="container1">
+            <h2>Besoins journaliers en macronutriments</h2>
+            <div class="result-row">
+                <div class="result-card">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/protein--v1.png" alt="Protéines">
+                    <h3>Protéines</h3>
+                    <p id="resultProteines"></p>
+                </div>
+                <div class="result-card">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/drop-of-blood.png" alt="Graisses">
+                    <h3>Graisses</h3>
+                    <p id="resultGraisses"></p>
+                </div>
+                <div class="result-card">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/wheat.png" alt="Glucides">
+                    <h3>Glucides</h3>
+                    <p id="resultGlucides"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Préférences Alimentaires et Génération des Repas -->
+        <div class="container">
+            <h2>Préférences alimentaires</h2>
+            <label>Type de régime :</label>
+            <div class="radio-group">
+                <label><input type="radio" name="typeRegime" value="équilibré" checked> Équilibré</label>
+                <label><input type="radio" name="typeRegime" value="végétarien"> Végétarien</label>
+                <label><input type="radio" name="typeRegime" value="vegan"> Vegan</label>
+                <label><input type="radio" name="typeRegime" value="keto"> Keto</label>
+            </div>
+
+            <label>Nombre de repas par jour :</label>
+            <select id="nombreRepas">
+                <option value="3">3 repas</option>
+                <option value="4">4 repas</option>
+                <option value="5">5 repas</option>
+            </select>
+
+            <button onclick="genererRepas()">Générer des repas</button>
+            <div class="result" id="resultRepas"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> <!-- Lien vers le fichier JavaScript -->
 </body>
 </html>
 
