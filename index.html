@@ -116,9 +116,31 @@
             </div>
         </div>
 
+        <!-- Section Préférences Alimentaires et Génération des Repas -->
+        <div class="container">
+            <h2>Préférences alimentaires</h2>
+            <label>Type de régime :</label>
+            <div class="radio-group">
+                <label><input type="radio" name="typeRegime" value="équilibré" checked> Équilibré</label>
+                <label><input type="radio" name="typeRegime" value="végétarien"> Végétarien</label>
+                <label><input type="radio" name="typeRegime" value="vegan"> Vegan</label>
+                <label><input type="radio" name="typeRegime" value="keto"> Keto</label>
+            </div>
+
+            <label>Nombre de repas par jour :</label>
+            <select id="nombreRepas">
+                <option value="3">3 repas</option>
+                <option value="4">4 repas</option>
+                <option value="5">5 repas</option>
+            </select>
+
+            <button onclick="genererRepas()">Générer des repas</button>
+            <div class="result" id="resultRepas"></div>
+        </div>
+
     </div>
 
-    <script src="js/script.js"></script>
- <!-- Lien vers le fichier JavaScript -->
+    <script src="js/script.js"></script> <!-- Lien vers le fichier JavaScript -->
 </body>
 </html>
+
